@@ -18,8 +18,18 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Arrays;
+
+import cz.msebera.android.httpclient.Header;
 
 
 public class InventoryActivity extends AppCompatActivity {
@@ -30,6 +40,9 @@ public class InventoryActivity extends AppCompatActivity {
     private TextView mNameTag;
     private NfcAdapter mNfcAdapter;
     ListView listview;
+    public String[] foody;
+    public ArrayList<String> inventory_list = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +52,62 @@ public class InventoryActivity extends AppCompatActivity {
         String personalNFC = pref.getString("personalNFC", "");
         String name = pref.getString("name", "");
         listview = (ListView) findViewById(R.id.listView);
-        String[] foody = {"pizza", "burger", "chocolate", "ice-cream", "banana", "apple"};
+        foody = new String[]{};
+        //        String[] foody = {"pizza", "burger", "chocolate", "ice-cream", "banana", "apple"};
+        inventory_list = new ArrayList<>();
+
+        RequestParams requests = new RequestParams();
+        requests.put("tag", personalNFC);
+        requests.put("name", name);
+
+        HttpUtils.get("create_user/", requests, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.d("asd", "Hello world");
+                Log.d("asd", "Response: " + response);
+            }
+        });
+
+        RequestParams getInventoryParams = new RequestParams();
+        getInventoryParams.put("user_id", personalNFC);
+
+        Log.d("NFC", personalNFC);
+
+        HttpUtils.get("get_inventory/", getInventoryParams, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                System.out.println("Hello world");
+                Log.d("http_getInv", "Response: " + response);
+                for(int i = 0; i < response.length(); i++) {
+                    try {
+                        inventory_list.add(response.getString(i));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                inventory_list.toArray(foody);
+                System.out.println("Goodbye World");
+            }
+        });
+
+
+
+//        HttpUtils.get("get_inventory/", getInventoryParams, new JsonHttpResponseHandler() {
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+//                Log.d("http_getInv", "Response: " + response);
+//                System.out.println(response);
+//            }
+//        });
+
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_view_row, R.id.listText, foody);
 
         listview.setAdapter(adapter);
 
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
         handleIntent(getIntent());
+
     }
 
 //        mNFCTag = (TextView) findViewById(R.id.nfc_code);
