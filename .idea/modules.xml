@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/NW Hacks.iml" filepath="$PROJECT_DIR$/NW Hacks.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/tag-it.iml" filepath="$PROJECT_DIR$/tag-it.iml" />
+      <module fileurl="file://C:\Users\Daphne\OneDrive\[UBC Year 3]\Hackathons\NW Hacks\app\app.iml" filepath="C:\Users\Daphne\OneDrive\[UBC Year 3]\Hackathons\NW Hacks\app\app.iml" />
+      <module fileurl="file://C:\Users\Daphne\OneDrive\[UBC Year 3]\Hackathons\NW Hacks\tag-it.iml" filepath="C:\Users\Daphne\OneDrive\[UBC Year 3]\Hackathons\NW Hacks\tag-it.iml" />
     </modules>
   </component>
 </project>
