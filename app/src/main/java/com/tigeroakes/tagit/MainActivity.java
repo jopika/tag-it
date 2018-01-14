@@ -62,8 +62,9 @@ public class MainActivity extends Activity {
             mTextView.setText("NFC is disabled.");
         } else {
              if (personalNFC.length() != 0 && name.length() != 0 ) {
-                 Intent goToNextActivity = new Intent(getApplicationContext(), InfoActivity.class);
+                 Intent goToNextActivity = new Intent(getApplicationContext(), InventoryActivity.class);
                  startActivity(goToNextActivity);
+                 finish();
             } else {
                  mButton.setText("SCAN NFC TO LOG IN");
                  handleIntent(getIntent());

@@ -72,7 +72,7 @@ public class LoginActivity extends Activity{
                 editor.putString("name", name);
                 editor.apply();
 
-                Intent goToNextActivity = new Intent(getApplicationContext(), InfoActivity.class);
+                Intent goToNextActivity = new Intent(getApplicationContext(), InventoryActivity.class);
                 startActivity(goToNextActivity);
                 finish();
                 //attemptLogin();
