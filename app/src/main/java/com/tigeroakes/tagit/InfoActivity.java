@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
+import org.json.*;
 
 public class InfoActivity extends AppCompatActivity {
     private SharedPreferences pref;
@@ -24,5 +25,18 @@ public class InfoActivity extends AppCompatActivity {
 
         mNFCTag.setText(personalNFC);
         mNameTag.setText(name);
+
+//        JSONObject obj = new JSONObject(" .... ");
+//        String pageName = obj.getJSONObject("pageInfo").getString("pageName");
+//
+//        JSONArray arr = obj.getJSONArray("posts");
+//        for (int i = 0; i < arr.length(); i++)
+//        {
+//            String post_id = arr.getJSONObject(i).getString("post_id");
+//        }
     }
+
+
+
+
 }
