@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Tag It</string>
     <string name="explanation">TEST</string>
+    <string name="welcome">Welcome to the Museum</string>
+    <string name="login_action">SCAN NFC TO LOGIN</string>
+
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->

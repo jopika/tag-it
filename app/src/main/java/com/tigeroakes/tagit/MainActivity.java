@@ -2,11 +2,13 @@ package com.tigeroakes.tagit;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.app.PendingIntent;
@@ -27,18 +29,24 @@ import java.util.Arrays;
   *
   */
 public class MainActivity extends Activity {
-public static final String MIME_TEXT_PLAIN = "text/plain";
+    public static final String MIME_TEXT_PLAIN = "text/plain";
 
-public static final String TAG = "NfcDemo";
+    public static final String TAG = "NfcDemo";
     private TextView mTextView;
+    private Button mButton;
     private NfcAdapter mNfcAdapter;
- 
+    private SharedPreferences pref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
- 
+        pref = getApplicationContext().getSharedPreferences("MyPref", 0);
+        String personalNFC = pref.getString( "personalNFC", "");
+        String name = pref.getString( "name", "");
+
         mTextView = (TextView) findViewById(R.id.textView_explanation);
+        mButton = (Button) findViewById(R.id.login_circle_indicator);
 
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
  
@@ -53,10 +61,15 @@ public static final String TAG = "NfcDemo";
         if (!mNfcAdapter.isEnabled()) {
             mTextView.setText("NFC is disabled.");
         } else {
-            mTextView.setText(R.string.explanation);
+             if (personalNFC.length() != 0 && name.length() != 0 ) {
+                 Intent goToNextActivity = new Intent(getApplicationContext(), InfoActivity.class);
+                 startActivity(goToNextActivity);
+            } else {
+                 mButton.setText("SCAN NFC TO LOG IN");
+                 handleIntent(getIntent());
+            }
         }
-         
-        handleIntent(getIntent());
+
     }
      
             @Override
@@ -149,11 +162,7 @@ public static final String TAG = "NfcDemo";
          
         adapter.enableForegroundDispatch(activity, pendingIntent, filters, techList);
     }
- 
-            /**
-      * @param activity The corresponding {@link BaseActivity} requesting to stop the foreground dispatch.
-      * @param adapter The {@link NfcAdapter} used for the foreground dispatch.
-      */
+
             public static void stopForegroundDispatch(final Activity activity, NfcAdapter adapter) {
         adapter.disableForegroundDispatch(activity);
     }
@@ -207,7 +216,12 @@ public static final String TAG = "NfcDemo";
         @Override
         protected void onPostExecute(String result) {
             if (result != null) {
-                mTextView.setText("NFC: " + result);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("personalNFC", result);
+                editor.apply();
+
+                Intent goToNextActivity = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(goToNextActivity);
             }
         }
     }
