@@ -88,6 +88,13 @@ public class InventoryActivity extends AppCompatActivity {
                 inventory_list.toArray(foody);
                 System.out.println("Goodbye World");
             }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                System.out.println("Hello object");
+                Log.d("http_getInv", "Response: " + response);
+//                inventory_list.toArray(foody);
+            }
         });
 
 
