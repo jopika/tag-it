@@ -16,8 +16,15 @@ import android.nfc.Tag;
 import android.nfc.tech.Ndef;
 import android.util.Log;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.Arrays;
+import java.util.Scanner;
 
 
 /**
@@ -208,6 +215,37 @@ public static final String TAG = "NfcDemo";
         protected void onPostExecute(String result) {
             if (result != null) {
                 mTextView.setText("NFC: " + result);
+                String url_base = "https://Jopika.lib.id/test@dev/get_info/";
+                String charset = "UTF-8";
+                String tag_id = result;
+                String name = "Jonathan";
+                String query = "";
+                try {
+                     query = String.format("tag=%s&name=%s",
+                            URLEncoder.encode(tag_id, charset),
+                            URLEncoder.encode(name, charset));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                    return;
+                }
+
+                try {
+                    URLConnection connection = new URL(url_base + "?" + query).openConnection();
+                    connection.setRequestProperty("Accept-Charset", charset);
+                    InputStream response = connection.getInputStream();
+
+                    Scanner s = new Scanner(response).useDelimiter("\\A");
+                    String response_string = s.hasNext() ? s.next() : "";
+
+                    System.out.println(response_string);
+
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                    return;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
