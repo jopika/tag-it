@@ -207,9 +207,7 @@ public static final String TAG = "NfcDemo";
         @Override
         protected void onPostExecute(String result) {
             if (result != null) {
-                Log.d(TAG, "TESTTAG: Reached" + result);
-
-                mTextView.setText("Read content: " + result);
+                mTextView.setText("NFC: " + result);
             }
         }
     }
