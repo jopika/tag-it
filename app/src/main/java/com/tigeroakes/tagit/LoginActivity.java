@@ -113,7 +113,6 @@ public class LoginActivity extends Activity{
             editor.apply();
 
         }
-
     }
 
     /**
@@ -174,7 +173,6 @@ public class LoginActivity extends Activity{
             } catch (InterruptedException e) {
                 return false;
             }
-
             // TODO: register the new account here.
             return true;
         }
@@ -182,7 +180,6 @@ public class LoginActivity extends Activity{
         @Override
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
-
         }
 
         @Override
