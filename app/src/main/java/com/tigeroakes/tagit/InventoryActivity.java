@@ -271,13 +271,12 @@ public class InventoryActivity extends AppCompatActivity {
 
                 // TODO result is the nfc code scanned
                 Log.d(TAG, "TESTTAG: KILL ME");
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("superTagNFC", result);
+                editor.apply();
 
                 Intent goToNextActivity = new Intent(getApplicationContext(), ScanActivity.class);
                 startActivity(goToNextActivity);
-
-//                SharedPreferences.Editor editor = pref.edit();
-//                editor.putString("personalNFC", result);
-//                editor.apply();
             }
         }
 
