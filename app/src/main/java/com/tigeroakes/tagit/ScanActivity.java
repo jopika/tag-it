@@ -42,7 +42,7 @@ public class ScanActivity extends AppCompatActivity {
         mArtifactImage = (ImageView) findViewById(R.id.artifactImage);
         mArtifactName = (TextView) findViewById(R.id.artifactName);
         mArtifactDescription = (TextView) findViewById(R.id.artifactDescription);
-        mArtifactDescription = (TextView) findViewById(R.id.partDescription);
+        mPartDescription = (TextView) findViewById(R.id.partDescription);
 
         pref = getApplicationContext().getSharedPreferences("MyPref", 0);
         String personalNFC = pref.getString( "personalNFC", "");

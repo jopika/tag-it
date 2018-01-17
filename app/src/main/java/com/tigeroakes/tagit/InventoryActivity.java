@@ -43,17 +43,22 @@ public class InventoryActivity extends AppCompatActivity {
     public String[] foody;
     public ArrayList<String> inventory_list = new ArrayList<>();
 
+    public InventoryActivity instance = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (instance == null) {
+            instance = this;
+        }
         setContentView(R.layout.activity_inventory);
         pref = getApplicationContext().getSharedPreferences("MyPref", 0);
         String personalNFC = pref.getString("personalNFC", "");
         String name = pref.getString("name", "");
         listview = (ListView) findViewById(R.id.listView);
         foody = new String[]{};
-        //        String[] foody = {"pizza", "burger", "chocolate", "ice-cream", "banana", "apple"};
+                final String[] foodyS = {"pizza", "burger", "chocolate", "ice-cream", "banana", "apple"};
         inventory_list = new ArrayList<>();
 
         RequestParams requests = new RequestParams();
@@ -85,8 +90,21 @@ public class InventoryActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-                inventory_list.toArray(foody);
+                inventory_list.add(" ");
+                Log.d(TAG, "onSuccess: " + inventory_list);
+               foody =  inventory_list.toArray(foody);
+                Log.d(TAG, "onSuccess:test  " + foody[0]
+                );
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(instance, R.layout.list_view_row, R.id.listText, foody);
+
+                listview.setAdapter(adapter);
                 System.out.println("Goodbye World");
+//                listview.invalidate();
+            }
+            
+            @Override
+            public void onFailure(int a, Header[] b, Throwable c, JSONObject d) {
+                Log.d(TAG, "onFailure: " + d);
             }
 
             @Override
@@ -107,13 +125,14 @@ public class InventoryActivity extends AppCompatActivity {
 //            }
 //        });
 
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_view_row, R.id.listText, foody);
-
-        listview.setAdapter(adapter);
+//
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_view_row, R.id.listText, foody);
+//
+//        listview.setAdapter(adapter);
 
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
         handleIntent(getIntent());
+//        Log.d("Foody: ", foody.toString());
 
     }
 
@@ -128,8 +147,6 @@ public class InventoryActivity extends AppCompatActivity {
 //            getMenuInflater().inflate(R.menu.main, menu);
 //            return true;
 //        }
-
-
 
     @Override
     protected void onResume() {
