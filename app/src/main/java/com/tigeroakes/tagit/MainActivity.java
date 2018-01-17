@@ -62,8 +62,9 @@ public class MainActivity extends Activity {
             mTextView.setText("NFC is disabled.");
         } else {
              if (personalNFC.length() != 0 && name.length() != 0 ) {
-                 Intent goToNextActivity = new Intent(getApplicationContext(), InfoActivity.class);
+                 Intent goToNextActivity = new Intent(getApplicationContext(), InventoryActivity.class);
                  startActivity(goToNextActivity);
+                 finish();
             } else {
                  mButton.setText("SCAN NFC TO LOG IN");
                  handleIntent(getIntent());
@@ -104,39 +105,7 @@ public class MainActivity extends Activity {
                   */
         handleIntent(intent);
     }
-     
-            @Override
-    protected void onResume() {
-        super.onResume();
-         
-        /**
-                  * It's important, that the activity is in the foreground (resumed). Otherwise
-                  * an IllegalStateException is thrown.
-                  */
-        setupForegroundDispatch(this, mNfcAdapter);
-    }
-     
-            @Override
-    protected void onPause() {
-        /**
-                  * Call this before onPause, otherwise an IllegalArgumentException is thrown as well.
-                  */
-        stopForegroundDispatch(this, mNfcAdapter);
-         
-        super.onPause();
-    }
-     
-            @Override
-    protected void onNewIntent(Intent intent) {
-        /**
-                  * This method gets called, when a new Intent gets associated with the current activity instance.
-                  * Instead of creating a new activity, onNewIntent will be called. For more information have a look
-                  * at the documentation.
-                  *
-                  * In our case this method gets called, when the user attaches a Tag to the device.
-                  */
-        handleIntent(intent);
-    }
+
 
     private void handleIntent(Intent intent) {
     String action = intent.getAction();
